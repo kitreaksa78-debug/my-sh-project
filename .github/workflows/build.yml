@@ -16,7 +16,7 @@ jobs:
         shexcraft compile_to_exe steal.sh
 
     - name: Upload EXE
-      uses: upload-artifact@v4
+      uses: actions/upload-artifact@v4
       with:
         name: my-exe-file
         path: steal.exe
