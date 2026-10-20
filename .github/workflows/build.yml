@@ -4,35 +4,19 @@ jobs:
   build:
     runs-on: windows-latest
 
-    defaults:
-      run:
-        shell: msys2 {0}
-
     steps:
     - uses: actions/checkout@v4
-
-    - name: Setup MSYS2
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: UCRT64
-        update: true
-        install: mingw-w64-ucrt-x86_64-gcc make
 
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
 
-    - name: Build ShExCraft
-      run: |
-        git clone https://github.com/uptoamir/ShExCraft.git
-        cd ShExCraft
-        cargo build --release
-
     - name: Compile SH to EXE
       run: |
-        ./ShExCraft/target/release/shexcraft compile_to_exe steal.sh
+        cargo install --git https://github.com/uptoamir/ShExCraft.git
+        shexcraft compile_to_exe steal.sh
 
     - name: Upload EXE
-      uses: actions/upload-artifact@v4
+      uses: upload-artifact@v4
       with:
         name: my-exe-file
         path: steal.exe
