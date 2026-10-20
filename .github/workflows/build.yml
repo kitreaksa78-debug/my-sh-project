@@ -16,19 +16,20 @@ jobs:
       with:
         msystem: UCRT64
         update: true
-        install: mingw-w64-ucrt-x86_64-gcc make autoconf automake libtool git
+        install: mingw-w64-ucrt-x86_64-gcc make
 
-    - name: Build and Install shc from Source
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Build ShExCraft
       run: |
-        git clone https://github.com/neurobin/shc.git
-        cd shc
-        ./configure
-        make
-        make install
+        git clone https://github.com/uptoamir/ShExCraft.git
+        cd ShExCraft
+        cargo build --release
 
     - name: Compile SH to EXE
       run: |
-        shc -f steal.sh -o steal.exe
+        ./ShExCraft/target/release/shexcraft compile_to_exe steal.sh
 
     - name: Upload EXE
       uses: actions/upload-artifact@v4
